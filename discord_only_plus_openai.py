@@ -3,14 +3,13 @@ from openai import OpenAI
 import discord
 import os
 
-# set OpenAI API key
 load_dotenv()
 OPENAI_KEY = os.getenv('OPENAI_KEY')
+DISCORD_TOKEN = os.getenv('TOKEN')
+
 oa_client = OpenAI(api_key=OPENAI_KEY)
 
-# ask OpenAI - respond like a pirate
 def call_openai(question):
-    # Call the OpenAI API
     completion = oa_client.chat.completions.create(
         model="gpt-4o",
         messages=[
@@ -18,14 +17,12 @@ def call_openai(question):
                 "role": "user",
                 "content": f"Respond like a pirate to the following question: {question}",
             },
-        ],
+        ]
     )
-
     response = completion.choices[0].message.content
     print(response)
     return response
 
-# Set up intents
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
@@ -51,4 +48,4 @@ async def on_message(message):
         print("---")
         await message.channel.send(response)
 
-client.run(os.getenv('TOKEN'))
+client.run(DISCORD_TOKEN)

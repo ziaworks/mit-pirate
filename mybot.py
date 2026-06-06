@@ -45,12 +45,22 @@ async def on_message(message):
         await message.channel.send('Hello!')
 
     if message.content.startswith('$question'):
-        print(f"Message: {message.content}")                
-        message_content = message.content.split("$question")[1]
-        print(f"Question: {message_content}")    
-        response = call_openai(message_content)   
-        print(f"Assistant: {response}")    
-        print("---")
-        await message.channel.send(response)
+        print(f"Message: {message.content}")
+        message_content = message.content.split("$question", 1)[1].strip()
+        if not message_content:
+            await message.channel.send('Arr, ask me a question after `$question`, matey!')
+            return
+        print(f"Question: {message_content}")
+        try:
+            response = call_openai(message_content)
+            print(f"Assistant: {response}")
+            print("---")
+            await message.channel.send(response)
+        except Exception as e:
+            print(f"OpenAI error: {e}")
+            await message.channel.send(
+                'Blimey! Me OpenAI treasure chest be empty. '
+                'Check yer API key and billing at https://platform.openai.com/account/billing'
+            )
 
 client.run(DISCORD_TOKEN)
