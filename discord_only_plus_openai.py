@@ -6,11 +6,11 @@ import os
 # set OpenAI API key
 load_dotenv()
 OPENAI_KEY = os.getenv('OPENAI_KEY')
-
 oa_client = OpenAI(api_key=OPENAI_KEY)
 
 # ask OpenAI - respond like a pirate
 def call_openai(question):
+    # Call the OpenAI API
     completion = oa_client.chat.completions.create(
         model="gpt-4o",
         messages=[
