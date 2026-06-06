@@ -1,3 +1,3 @@
-discord.py
+discord_only_plus_openai.py
 python-dotenv
 openai
